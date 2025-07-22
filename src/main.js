@@ -85,7 +85,7 @@ async function loadMore() {
       });
     } else {
       createGallery(newResponseData.hits);
-      showLoadMoreButton;
+      showLoadMoreButton();
     }
   } catch (error) {
     iziToast.error({
