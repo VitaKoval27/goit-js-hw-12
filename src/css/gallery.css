@@ -60,7 +60,7 @@ color: #2e2f42;
 }
 
 .hidden{
-    opacity:0;
+    display:none;
 }
 
 .load-more{
