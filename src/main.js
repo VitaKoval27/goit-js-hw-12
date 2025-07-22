@@ -33,9 +33,10 @@ async function onSubmit(event) {
   query = refs.input.value.trim();
 
   if (!query) {
-    iziToast.error({
+    iziToast.info({
       title: '(',
       message: 'You must enter something to search.',
+      position: 'topRight',
     });
     return;
   }
@@ -90,8 +91,9 @@ async function loadMore() {
         position: 'topRight',
       });
     } else {
-      createGallery(newResponseData.hits);
       showLoader();
+      createGallery(newResponseData.hits);
+
       showLoadMoreButton();
       const { height: cardHeight } =
         refs.gallery.firstElementChild.getBoundingClientRect();
