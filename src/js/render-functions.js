@@ -29,7 +29,7 @@ function createGallery(images) {
     )
     .join('');
 
-  refs.gallery.insertAdjacentHTML('afterbegin', img);
+  refs.gallery.insertAdjacentHTML('beforeend', img);
   if (!photo) {
     photo = new SimpleLightbox('.gallery a', {});
   } else {

@@ -35,7 +35,7 @@ async function onSubmit(event) {
   if (!query) {
     iziToast.error({
       title: '(',
-      message: 'Field search can t be empty',
+      message: 'You must enter something to search.',
     });
     return;
   }
@@ -47,22 +47,28 @@ async function onSubmit(event) {
     if (responseData.hits.length === 0) {
       iziToast.error({
         title: '(',
-        message: 'sorry,try again',
+        message: `Sorry, no images found matching your search ${query}. Please try again!`,
         position: 'topRight',
       });
       return;
     } else {
       createGallery(responseData.hits);
-      console.log(responseData.hits);
 
       if (responseData.totalHits > page * PER_PAGE) {
         showLoadMoreButton();
+      } else {
+        hideLoadMoreButton();
+        iziToast.info({
+          title: '*',
+          message: "We're sorry, but you've reached the end of search results.",
+          position: 'topRight',
+        });
       }
     }
   } catch (error) {
     iziToast.error({
       title: '(',
-      message: 'sorry',
+      message: `Something went wrong! Please try your search again.${error}`,
     });
     console.log(error);
   } finally {
@@ -80,17 +86,25 @@ async function loadMore() {
       hideLoadMoreButton();
       iziToast.info({
         title: '*',
-        message: 'This is all images ',
+        message: "We're sorry, but you've reached the end of search results.",
         position: 'topRight',
       });
     } else {
       createGallery(newResponseData.hits);
+      showLoader();
       showLoadMoreButton();
+      const { height: cardHeight } =
+        refs.gallery.firstElementChild.getBoundingClientRect();
+
+      window.scrollBy({
+        top: cardHeight * 2,
+        behavior: 'smooth',
+      });
     }
   } catch (error) {
     iziToast.error({
       title: '(',
-      message: 'sorry',
+      message: `Something went wrong! Please try your search again.${error}`,
     });
     console.log(error);
     hideLoadMoreButton();
