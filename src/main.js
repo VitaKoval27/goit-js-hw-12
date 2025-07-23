@@ -83,6 +83,17 @@ async function loadMore() {
   showLoader();
   try {
     const newResponseData = await getImagesByQuery(query, page);
+
+    createGallery(newResponseData.hits);
+
+    const { height: cardHeight } =
+      refs.gallery.firstElementChild.getBoundingClientRect();
+
+    window.scrollBy({
+      top: cardHeight * 2,
+      behavior: 'smooth',
+    });
+
     if (newResponseData.totalHits <= page * PER_PAGE) {
       hideLoadMoreButton();
       iziToast.info({
@@ -91,17 +102,7 @@ async function loadMore() {
         position: 'topRight',
       });
     } else {
-      showLoader();
-      createGallery(newResponseData.hits);
-
       showLoadMoreButton();
-      const { height: cardHeight } =
-        refs.gallery.firstElementChild.getBoundingClientRect();
-
-      window.scrollBy({
-        top: cardHeight * 2,
-        behavior: 'smooth',
-      });
     }
   } catch (error) {
     iziToast.error({
