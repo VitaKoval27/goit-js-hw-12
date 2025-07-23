@@ -59,18 +59,11 @@ async function onSubmit(event) {
         showLoadMoreButton();
       } else {
         hideLoadMoreButton();
-        iziToast.info({
-          title: '*',
-          message: "We're sorry, but you've reached the end of search results.",
-          position: 'topRight',
-        });
+        endMessage();
       }
     }
   } catch (error) {
-    iziToast.error({
-      title: '(',
-      message: `Something went wrong! Please try your search again.${error}`,
-    });
+    errorMessage();
     console.log(error);
   } finally {
     hideLoader();
@@ -96,22 +89,29 @@ async function loadMore() {
 
     if (newResponseData.totalHits <= page * PER_PAGE) {
       hideLoadMoreButton();
-      iziToast.info({
-        title: '*',
-        message: "We're sorry, but you've reached the end of search results.",
-        position: 'topRight',
-      });
+      endMessage();
     } else {
       showLoadMoreButton();
     }
   } catch (error) {
-    iziToast.error({
-      title: '(',
-      message: `Something went wrong! Please try your search again.${error}`,
-    });
+    errorMessage();
     console.log(error);
     hideLoadMoreButton();
   } finally {
     hideLoader();
   }
+}
+function endMessage() {
+  iziToast.info({
+    title: '*',
+    message: "We're sorry, but you've reached the end of search results.",
+    position: 'topRight',
+  });
+}
+
+function errorMessage() {
+  iziToast.error({
+    title: '(',
+    message: `Something went wrong! Please try your search again.${error}`,
+  });
 }
