@@ -19,7 +19,7 @@ function createGallery(images) {
           <img class="gallery-image" src="${webformatURL}" alt="${tags}">
           <ul class="info-wrapper">
           <li class="info-item"><span>likes</span>${likes}</li>
-          <li class="info-item"><span>Dounloads</span>${downloads}</li>
+          <li class="info-item"><span>Downloads</span>${downloads}</li>
           <li class="info-item"><span>Comments</span>${comments}</li>
           <li class="info-item"><span>Views</span>${views}</li>
           </ul>
@@ -31,7 +31,11 @@ function createGallery(images) {
 
   refs.gallery.insertAdjacentHTML('beforeend', img);
   if (!photo) {
-    photo = new SimpleLightbox('.gallery a', {});
+    photo = new SimpleLightbox('.gallery a', {
+      captionsData: 'alt',
+      captionPosition: 'bottom',
+      captionDelay: 250,
+    });
   } else {
     photo.refresh();
   }
